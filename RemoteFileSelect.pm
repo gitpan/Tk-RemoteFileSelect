@@ -1,4 +1,6 @@
 package Tk::RemoteFileSelect;
+# Temp version for CPAN.
+$VERSION=0.55
 my $RCSRevKey = '$Revision: 0.55 $';
 $RCSRevKey =~ /Revision: (.*?) /;
 $VERSION=$1;
