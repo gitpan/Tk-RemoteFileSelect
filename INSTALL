@@ -1,0 +1,50 @@
+Tk::RemoteFileSelect.pm, Version 0.55, installation:
+
+Please remember that this software has not been tested thoroughly,
+only on the Linux and Solaris operating systems.  Refer all questions
+and problem reports to the author, rkiesling@mainmatter.com.
+
+
+System requirements:
+
+1.  A Unix or derivative operating system.
+2.  Perl version 5.005 or greater.
+3.  Perl/Tk, version 800.x.
+4.  The Perl Net::FTP.pm module, distributed in libnet from CPAN.
+5.  GNU make.
+
+
+Installation:
+
+1.  Unpack the RemoteFileSelect archive with the "unzip" command:
+
+  tar zxvf RemoteFileSelect-0.55.tar.gz
+
+2.  Change to the top-level subdirectory:
+
+  $ cd remotefileselect-0.55
+
+3.  The top-level Makefile should work on any Unix or derivative
+    system.  It uses the host system's Perl installation to 
+    build the package Makefiles.  At the prompt, type:
+
+  $ perl Makefile.PL
+
+4.  Build the program modules and documentation.  Type:
+
+  $ make
+
+5.  If necessary, become root (via "su", for example), and 
+    install the source files and documentation in the system's 
+    site_perl library, and the "browser" script in 
+    /usr/local/bin, using the "make install" command:
+
+  $ su
+  Enter Password:
+  # make install
+
+
+Copyright:
+
+This software is distributed under the Perl Artistic License.
+Please refer to the file "Artistic" in this directory.
