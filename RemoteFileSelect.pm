@@ -1,7 +1,7 @@
 package Tk::RemoteFileSelect;
-# Temp version for CPAN.
-$VERSION=0.55
-my $RCSRevKey = '$Revision: 0.55 $';
+# Temp version of CPAN.
+$VERSION=0.56;
+my $RCSRevKey = '$Revision: 0.56 $';
 $RCSRevKey =~ /Revision: (.*?) /;
 $VERSION=$1;
 use vars qw($VERSION @EXPORT_OK);
@@ -19,49 +19,46 @@ use vars qw($VERSION @EXPORT_OK);
 
 =head1 DESCRIPTION
 
-  A RemoteFileSelect contains two listboxes that display
-  subdirectories and files, a directory entry and a file name
-  entry, and buttons for each operation, which are labeled
-  with Alt-key accelerators.
+A RemoteFileSelect contains two listboxes that display subdirectories
+and files, a directory entry and a file name entry, and buttons for
+each operation, which are labeled with Alt-key accelerators.
 
-  When entering a file name, the RemoteFileSelect verifies 
-  whether the file already exists.  If a file is selected
-  in the listbox, the RemoteFileSelect returns that file's
-  name when the user clicks the 'Accept' button, presses
-  Enter after typing a name in the file entry, or double
-  clicking on a selection in the file list box.
+When entering a file name, the RemoteFileSelect verifies whether the
+file already exists.  If a file is selected in the listbox, the
+RemoteFileSelect returns that file's name when the user clicks the
+'Accept' button, presses Enter after typing a name in the file entry,
+or double clicks on a selection in the file list box.
 
-  Additionally, if the Net::FTP module is installed, RemoteFileSelect
-  will activate an additional "Host" button on the FileSelect widget,
-  where you can enter the host name, and your user id and password,
-  and select files on the remote host.
+Additionally, if the Net::FTP module is installed, RemoteFileSelect
+will activate an additional "Host" button on the FileSelect widget,
+where you can enter the host name, and your user id and password, and
+select files on the remote host.
 
-  If a file name is selected on the local host, then 
-  the RemoteFileSelect widget returns the path to the 
-  file name, the same as a standard FileSelect widget.
+If a file name is selected on the local host, then the
+RemoteFileSelect widget returns the path to the file name, the same as
+a standard FileSelect widget.
 
-  If a file is selected on a remote host, then the 
-  RemoteFileSelect widget returns the name in the form:
+If a file is selected on a remote host, then the RemoteFileSelect
+widget returns the name in the form:
 
   host:/full-pathname-of-file
 
-  RemoteFileSelect requires the Net::FTP module to be 
-  installed.  If it cannot find and load Net::FTP, the
-  RemoteFileSelect widget behaves like a standard
-  FileSelect widget, and the "Host" button is grayed out.
+RemoteFileSelect requires the Net::FTP module to be installed.  If it
+cannot find and load Net::FTP, the RemoteFileSelect widget behaves
+like a standard FileSelect widget, and the "Host" button is grayed
+out.
 
-  RemoteFileSelect.pm was developed with the Net::FTP
-  module distributed with libnet-1.0703, from
-  http://www.cpan.org/.
+RemoteFileSelect.pm was developed with the Net::FTP module distributed
+with libnet-1.0703, from http://www.cpan.org/.
 
-  All other operations function as in a FileSelect widget.
-  Please refer to the FileSelect.pm POD documentation.
+All other operations function as in a FileSelect widget.  Please refer
+to the FileSelect.pm POD documentation.
 
 =head1 VERSION INFO
 
   First development version.
 
-  $Revision: 0.55 $
+  $Revision: 0.56 $
 
 =cut
 
@@ -380,11 +377,11 @@ sub Populate {
     );
 
     # Host dialog
-    my $h = $w -> Component( 
+    my $h = $w -> Component(
 			     DialogBox => 'hostdialog',
 			     -title => 'Select Remote Host',
 			     -buttons => [ 'Ok', 'Cancel' ] );
-    $h -> Component( Label => 'toplabel', 
+    $h -> Component( Label => 'toplabel',
 		     -text => "Enter Name or IP Address of Remote Host:" )
       -> pack( -expand => '1', -fill => 'x' );
     $h -> Component( Entry => 'hostentry',
@@ -397,7 +394,7 @@ sub Populate {
       -> pack( -anchor => 'w' );
 
     # login user/password dialog
-    my $l = $w -> Component( 
+    my $l = $w -> Component(
 			     DialogBox => 'logindialog',
 			     -title => 'Login',
 			     -buttons => [ 'Ok', 'Cancel' ] );
