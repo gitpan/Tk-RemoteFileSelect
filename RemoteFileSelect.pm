@@ -1,9 +1,8 @@
 package Tk::RemoteFileSelect;
 # Temp version for CPAN.
-$VERSION=0.58;
-my $RCSRevKey = '$Revision: 0.58 $';
+$VERSION=0.59;
+my $RCSRevKey = '$Revision: 0.59 $';
 $RCSRevKey =~ /Revision: (.*?) /;
-$VERSION=$1;
 use vars qw($VERSION @EXPORT_OK);
 @EXPORT_OK = qw(glob_to_re);
 
@@ -24,22 +23,22 @@ use vars qw($VERSION @EXPORT_OK);
 
 =head1 DESCRIPTION
 
-A RemoteFileSelect dialog contains two listboxes that display
-subdirectories and files, a directory entry and a file name entry, and
-buttons for each operation, which are labeled with Alt-key
-accelerators.
+A RemoteFileSelect dialog contains two Listboxes that display
+subdirectories and files, a directory Entry and a file name Entry, and
+buttons for each operation that are labeled with Alt-key accelerators.
 
-When entering a file name, RemoteFileSelect verifies whether the file
-already exists.  If a file is selected in the listbox,
-RemoteFileSelect returns that file's name when the user clicks the
-'Accept' button, presses Enter after typing a name in the file entry,
-or double clicks on a selection in the file list box.
+When you select a file in the Listbox, RemoteFileSelect returns that
+file's name when you click on the "Accept" button.  RemoteFileSelect
+also returns a file name if you press Enter after typing a name in the
+file Entry, or double click on a selection in the file Listbox.
 
-Additionally, if the Net::FTP module is installed, RemoteFileSelect
-activates an additional "Host" button.  Clicking "Host" prompts for
-the name of a remote system, and your user name and password.  After
-logging in with FTP, you can browse and select files on the remote
-system.
+Before returning the filename, RemoteFileSelect verifies whether the
+file exists.
+
+If Net::FTP, part of libnet, is installed, RemoteFileSelect activates
+an additional "Host" button.  Clicking "Host" prompts you for the name
+of a remote system, and your user name and password.  After logging in
+with FTP, you can browse and select files on the remote system.
 
 If a file name is selected on the local system, then RemoteFileSelect
 returns the path to the file, the same as a standard FileSelect
@@ -50,19 +49,19 @@ the name in the form:
 
   host:/full-pathname-of-file
 
-RemoteFileSelect requires Net::FTP, part of libnet, to be installed.
-If it cannot find and load Net::FTP, RemoteFileSelect behaves like a
-standard FileSelect widget, and the "Host" button is grayed out.
+If RemoteFileSelect cannot find and load Net::FTP, the dialog box
+behaves like a standard FileSelect widget, and the "Host" button is
+grayed out.
 
 RemoteFileSelect.pm was developed with the Net::FTP module distributed
 with libnet-1.12, from http://www.cpan.org/.
 
-All other operations function as in a FileSelect widget.  Please refer
-to the FileSelect.pm POD documentation.
+All other operations perform as in a Tk::FileSelect widget.  Please refer
+to the Tk::FileSelect man page.
 
 =head1 VERSION INFO
 
-  $Revision: 0.58 $
+  $Revision: 0.59 $
 
 =head1 AUTHOR
 
