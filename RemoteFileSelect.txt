@@ -2,51 +2,52 @@ NAME
       RemoteFileSelect.pm--Browse directories with FTP.
 
 SYNOPSIS
-      require Tk::RemoteFileSelect;
+      use Tk::RemoteFileSelect;
+      use Tk::LoginDialog;
 
-      my $file = $mw -> Tk::RemoteFileSelect( -directory => '.' );
+      my $dialog;  # Reference to RemoteFileSelect widget.
+      my $file;    # File selected in the widget.
+
+      $dialog = $mw -> RemoteFileSelect( -directory => '.' );
+      $file = $dialog -> Show;
 
 DESCRIPTION
-      A RemoteFileSelect contains two listboxes that display
-      subdirectories and files, a directory entry and a file name
-      entry, and buttons for each operation, which are labeled
-      with Alt-key accelerators.
+    A RemoteFileSelect dialog contains two listboxes that display
+    subdirectories and files, a directory entry and a file name entry, and
+    buttons for each operation, which are labeled with Alt-key accelerators.
 
-      When entering a file name, the RemoteFileSelect verifies 
-      whether the file already exists.  If a file is selected
-      in the listbox, the RemoteFileSelect returns that file's
-      name when the user clicks the 'Accept' button, presses
-      Enter after typing a name in the file entry, or double
-      clicking on a selection in the file list box.
+    When entering a file name, RemoteFileSelect verifies whether the file
+    already exists. If a file is selected in the listbox, RemoteFileSelect
+    returns that file's name when the user clicks the 'Accept' button,
+    presses Enter after typing a name in the file entry, or double clicks on
+    a selection in the file list box.
 
-      Additionally, if the Net::FTP module is installed, RemoteFileSelect
-      will activate an additional "Host" button on the FileSelect widget,
-      where you can enter the host name, and your user id and password,
-      and select files on the remote host.
+    Additionally, if the Net::FTP module is installed, RemoteFileSelect
+    activates an additional "Host" button. Clicking "Host" prompts for the
+    name of a remote system, and your user name and password. After logging
+    in with FTP, you can browse and select files on the remote system.
 
-      If a file name is selected on the local host, then 
-      the RemoteFileSelect widget returns the path to the 
-      file name, the same as a standard FileSelect widget.
+    If a file name is selected on the local system, then RemoteFileSelect
+    returns the path to the file, the same as a standard FileSelect widget.
 
-      If a file is selected on a remote host, then the 
-      RemoteFileSelect widget returns the name in the form:
+    If a file is selected on a remote host, then RemoteFileSelect returns
+    the name in the form:
 
       host:/full-pathname-of-file
 
-      RemoteFileSelect requires the Net::FTP module to be 
-      installed.  If it cannot find and load Net::FTP, the
-      RemoteFileSelect widget behaves like a standard
-      FileSelect widget, and the "Host" button is grayed out.
+    RemoteFileSelect requires Net::FTP, part of libnet, to be installed. If
+    it cannot find and load Net::FTP, RemoteFileSelect behaves like a
+    standard FileSelect widget, and the "Host" button is grayed out.
 
-      RemoteFileSelect.pm was developed with the Net::FTP
-      module distributed with libnet-1.0703, from
-      http://www.cpan.org/.
+    RemoteFileSelect.pm was developed with the Net::FTP module distributed
+    with libnet-1.12, from http://www.cpan.org/.
 
-      All other operations function as in a FileSelect widget.
-      Please refer to the FileSelect.pm POD documentation.
+    All other operations function as in a FileSelect widget. Please refer to
+    the FileSelect.pm POD documentation.
 
 VERSION INFO
-      First development version.
+      $Revision: 0.58 $
 
-      $Revision: 0.55 $
+AUTHOR
+    Robert Allan Kiesling <rkiesling@earthlink.net>
 

@@ -1,8 +1,8 @@
-Tk::RemoteFileSelect.pm, Version 0.55, installation:
+Tk::RemoteFileSelect.pm, Version 0.58, installation:
 
 Please remember that this software has not been tested thoroughly,
 only on the Linux and Solaris operating systems.  Refer all questions
-and problem reports to the author, rkiesling@mainmatter.com.
+and problem reports to the author, rkiesling@earthlink.net.
 
 
 System requirements:
@@ -16,13 +16,13 @@ System requirements:
 
 Installation:
 
-1.  Unpack the RemoteFileSelect archive with the "unzip" command:
+1.  Unpack the RemoteFileSelect archive.
 
-  tar zxvf RemoteFileSelect-0.55.tar.gz
+  tar zxvf RemoteFileSelect-0.58.tar.gz
 
 2.  Change to the top-level subdirectory:
 
-  $ cd remotefileselect-0.55
+  $ cd Tk-RemoteFileSelect-0.58
 
 3.  The top-level Makefile should work on any Unix or derivative
     system.  It uses the host system's Perl installation to 
@@ -48,3 +48,5 @@ Copyright:
 
 This software is distributed under the Perl Artistic License.
 Please refer to the file "Artistic" in this directory.
+
+
