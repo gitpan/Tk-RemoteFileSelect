@@ -1,7 +1,6 @@
 package Tk::RemoteFileSelect;
-# Temp version for CPAN.
-$VERSION=0.59;
-my $RCSRevKey = '$Revision: 0.59 $';
+$VERSION=0.60;
+my $RCSRevKey = '$Revision: 1.13 $';
 $RCSRevKey =~ /Revision: (.*?) /;
 use vars qw($VERSION @EXPORT_OK);
 @EXPORT_OK = qw(glob_to_re);
@@ -13,7 +12,6 @@ use vars qw($VERSION @EXPORT_OK);
 =head1 SYNOPSIS 
 
   use Tk::RemoteFileSelect;
-  use Tk::LoginDialog;
 
   my $dialog;  # Reference to RemoteFileSelect widget.
   my $file;    # File selected in the widget.
@@ -23,60 +21,200 @@ use vars qw($VERSION @EXPORT_OK);
 
 =head1 DESCRIPTION
 
-A RemoteFileSelect dialog contains two Listboxes that display
-subdirectories and files, a directory Entry and a file name Entry, and
-buttons for each operation that are labeled with Alt-key accelerators.
+A RemoteFileSelect dialog displays list boxes for subdirectories and
+files, a directory entry and a file name entry, and buttons for each
+of the widget's operations.
 
-When you select a file in the Listbox, RemoteFileSelect returns that
-file's name when you click on the "Accept" button.  RemoteFileSelect
-also returns a file name if you press Enter after typing a name in the
-file Entry, or double click on a selection in the file Listbox.
+Tk::RemoteFileSelect -> Show () returns the file's path name when
+clicking on the, "Accept," button.  Show () also returns a file name
+after pressing, "Enter," after typing a name in the file entry, or after
+double clicking on a file name.
 
-Before returning the filename, RemoteFileSelect verifies whether the
-file exists.
+If Net::FTP is installed, RemoteFileSelect enables the, "Host,"
+button.  Clicking on, "Host," prompts for the name of a remote system,
+and user name and password.  After logging in with FTP, the dialog can
+browse and select files using the remote FTP server.
 
-If Net::FTP, part of libnet, is installed, RemoteFileSelect activates
-an additional "Host" button.  Clicking "Host" prompts you for the name
-of a remote system, and your user name and password.  After logging in
-with FTP, you can browse and select files on the remote system.
+When selecting files without logging in to a remote system,
+RemoteFileSelect returns the file's path like a Tk::FileSelect dialog.
 
-If a file name is selected on the local system, then RemoteFileSelect
-returns the path to the file, the same as a standard FileSelect
-widget.
-
-If a file is selected on a remote host, then RemoteFileSelect returns 
-the name in the form:
+After logging in to a FTP server, however, RemoteFileSelect returns
+path names of files in the the following format.
 
   host:/full-pathname-of-file
 
-If RemoteFileSelect cannot find and load Net::FTP, the dialog box
-behaves like a standard FileSelect widget, and the "Host" button is
-grayed out.
+If RemoteFileSelect cannot find and load Net::FTP, then the widget
+behaves like a FileSelect dialog, and the, "Host," button is grayed
+out.
 
-RemoteFileSelect.pm was developed with the Net::FTP module distributed
-with libnet-1.12, from http://www.cpan.org/.
+=head1 OPTIONS
 
-All other operations perform as in a Tk::FileSelect widget.  Please refer
-to the Tk::FileSelect man page.
+=item Name: B<width>
+
+=item Switch: B<-width>
+
+Width of the file and directory list boxes.
+
+=item Name: B<height>
+
+=item Switch: B<-height>
+
+Height of the file and directory list boxes.
+
+=item Name: B<directory>
+
+=item Switch: B<-directory>
+
+=item Name: B<initialdir>
+
+=item Switch: B<-initialdir>
+
+Specifies the initial directory when selecting files on a local system.
+
+=item Name:	B<remotedirectory>
+
+=item Switch:	B<-remotedirectory>
+
+Specifies the initial directory to start in after connecting to remote
+hosts.  Value may be a directory or a hash reference which specifies
+host and directory; e.g.
+
+  -remotedirectory => { host1 => /some/directory, host2 => /other/directory }
+
+=item Name: B<filelabel>
+
+=item Switch: B<-filelabel>
+
+Text of the file entry label.
+
+=item Name: B<filelistlabel>
+
+=item Switch: B<-filelistlabel>
+
+Text of the file list box title.
+
+=item Name: B<filter>
+
+=item Switch: B<-filter>
+
+Display file names that match the file glob pattern of the value.
+
+=item Name: B<hostname>
+
+=item Switch: B<-hostname>
+
+Initial value of the remote host name.
+
+=item Name: B<transcript>
+
+=item Switch: B<-transcript>
+
+Print a transcript of the FTP session to standard output.
+
+=item Name: B<userid>
+
+=item Switch: B<-userid>
+
+The initial value of the remote user ID.
+
+=item Name: B<dirlistlabel>
+
+=item Switch: B<-dirlistlabel>
+
+Text of the directory list title.
+
+=item Name: B<dirlabel>
+
+=item Switch: B<-dirlabel>
+
+Text of the directory entry label.
+
+=item Name: B<acceptlabel>
+
+=item Switch: B<-acceptlabel>
+
+Text of the Accept button label.
+
+=item Name: B<hostlabel>
+
+=item Switch: B<-hostlabel>
+
+Text of the Host button label.
+
+=item Name: B<cancellabel>
+
+=item Switch: B<-cancellabel>
+
+Text of the Cancel button label.
+
+=item Name: B<resetlabel>
+
+=item Switch: B<-resetlabel>
+
+Text of the Reset button label.
+
+=item Name: B<homelabel>
+
+=item Switch: B<-homelabel>
+
+Text of the Home button label.
+
+=item Name: B<uidlabel>
+
+=item Switch: B<-uidlabel>
+
+Text of the user name entry label.
+
+=item Name: B<pwdlabel>
+
+=item Switch: B<-pwdlabel>
+
+Text of the password entry label.
+
+=item Name: B<verify>
+
+=item Switch: B<-verify>
+
+The value is an anonymous array that contains the operators for file
+verification, normally qw(! -d -w).
+
+=head1 BUGS
+
+The -initialfile, -userid, and -password values do not appear in the
+entry widgets.
+
+Older versions of Net::FTP (for example, the version distributed with
+Perl 5.6.1), can cause Perl/Tk windows to freeze when changing to a 
+subdirectory of a directory referred to by a symbolic link.
 
 =head1 VERSION INFO
 
-  $Revision: 0.59 $
+    Version 0.60.
 
-=head1 AUTHOR
+=head1 CREDITS
 
-Robert Allan Kiesling <rkiesling@earthlink.net>
+Robert Kiesling <rkies@cpan.org>, based on Tk::FileSelect.
+
+Persistent login information added by dougw@cpan.org.
+
+Licensed under the same terms as Perl.  Refer to the file, "Artistic," 
+for information.
+
+=head1 SEE ALSO
+
+L<Tk(3)>, L<Tk::FileSelect(3)>
 
 =cut
 
 use Tk qw(Ev);
+use Tk::CmdLine;
 use strict;
 use Carp;
 use base qw(Tk::Toplevel);
 use Tk::widgets qw(LabEntry Button Frame Listbox Scrollbar);
 use File::Basename;
 
-my $menufont="*-helvetica-medium-r-*-*-12-*";
+my $font="*-helvetica-medium-r-*-*-12-*";
 
 Construct Tk::Widget 'RemoteFileSelect';
 
@@ -111,6 +249,8 @@ use vars qw(%error_text);
 	'-C' => 'has no inode change date/time',
     );
 
+Tk::CmdLine::SetResources ('*font: ' . $font);
+
 sub import {
     if (defined $_[1] and $_[1] eq 'as_default') {
 	local $^W = 0;
@@ -127,7 +267,7 @@ sub Cancel
  my $hostname = $cw -> cget( -hostname );
  if( $hostname ne '' ) {
    my $ftp = $cw -> cget( -ftp );
-   $ftp -> quit;
+   $ftp -> quit if $ftp;
    $cw -> configure( -ftp => undef,
 		     -connected => '' );
  }
@@ -153,7 +293,24 @@ sub host {
 				  $transcript );
 
     if( defined $ftp ) {
-      my $dir = $ftp -> pwd();
+
+	my $dir;
+	my $remote_dir = $cw -> cget("-remotedirectory");
+	if (defined $remote_dir) {
+	    my $rdir = ref($remote_dir)
+		? exists($remote_dir->{$hostid})
+		? $remote_dir->{$hostid}
+	    : undef
+		: $remote_dir;
+	    if (defined $rdir) {
+		if( ! $ftp -> cwd( $rdir ) ) {
+		    $cw -> Error( "Cannot cwd to $rdir." );
+
+		    $dir = '';
+		}
+	    }
+	}
+      $dir = $ftp -> pwd() unless $dir;
       $cw -> remoteDirectory( $dir );
     } 
 }
@@ -177,6 +334,7 @@ sub remoteLogin {
   if( $ftp -> login( $userid, $password ) ) {
     $cw -> configure( -ftp => $ftp,
 		      -connected => '1');
+    $cw->setLoginVariables( $ftp, $userid, $password );
   } else {
     my $edlg = $cw -> Subwidget( 'errormessage' );
     $edlg -> configure( -text => "Error: Could not login to $hostid\." );
@@ -185,6 +343,18 @@ sub remoteLogin {
 		      -connected => '');
   }
   return $ftp;
+}
+
+sub setLoginVariables {
+    my ($cw, $ftp, $userid, $password) = @_;
+    my $ftpvar = $cw->cget('-ftpvariable');
+    $$ftpvar = $ftp if $ftpvar and ref $ftpvar;
+    my $useridvar = $cw->cget('-useridvariable');
+
+    $$useridvar = $userid if $useridvar and ref $useridvar;
+    my $passwordvar = $cw->cget('-passwordvariable');
+    $$passwordvar = $password if $passwordvar and ref
+	$useridvar;
 }
 
 sub Accept {
@@ -215,10 +385,15 @@ sub Accept {
               my $r = ref $_;
               if (defined $r and $r eq 'ARRAY') {
                   #local $_ = $leaf; # use strict var problem here
-                  return if not &{$_->[0]}($cw, $path, $leaf, @{$_}[1..$#{$_}]);
+                  return 
+		      if not &{$_->[0]}($cw, $path, $leaf, @{$_}[1..$#{$_}]);
               } else {
+		  no warnings;
+		  ###
+		  ### Avoid uninitialized value errors.
+		  ###
                   my $s = eval "$_ '$path/$leaf'";
-                  print $@ if $@;
+		  use warnings;
                   if (not $s) {
                       my $err;
                       if (substr($_,0,1) eq '!')
@@ -325,8 +500,6 @@ sub Populate {
     $b->pack(-side => 'left', -expand => 1, -fill => 'both');
     $b->bind('<Double-Button-1>' => [$w => 'Accept_dir', Ev(['getSelected'])]);
 
-    # Add a label.
-
     my $f = $w->Frame();
     $f->pack(-side => 'right', -fill => 'y', -expand => 0);
     $b = $f->Button('-textvariable' => \$w->{'Configure'}{'-acceptlabel'},
@@ -334,6 +507,7 @@ sub Populate {
 		     -command => [ 'Accept', $w ],
     );
     $w -> bind( '<Alt-a>', [$w => 'Accept', Ev(['getSelected'])]);
+    $w -> Advertise ('AcceptButton' => $b);
 
     $b->pack(-side => 'top', -fill => 'x', -expand => 1);
     $b = $f->Button('-textvariable' => \$w->{'Configure'}{'-hostlabel'},
@@ -389,45 +563,47 @@ sub Populate {
 			     -title => 'Select Remote Host',
 			     -buttons => [ 'Ok', 'Cancel' ] );
     $h -> Component( Label => 'toplabel',
-		     -text => "Enter Name or IP Address of Remote Host:" )
+	     -text => "Enter the name or IP address of the remote host." )
       -> pack( -expand => '1', -fill => 'x' );
     $h -> Component( Entry => 'hostentry',
         -textvariable => \$w -> {'Configure'}{'-hostname'},
     ) -> pack( -expand => '1', -fill => 'x' );
 
     $h -> Component( Checkbutton => 'transcriptbutton',
-		     -text => 'Log Session on Terminal.',
+		     -text => 'Log the session on the terminal.',
 		     -variable => \$w -> {'Configure'}{'-transcript'})
       -> pack( -anchor => 'w' );
 
     # login user/password dialog
     my $l = $w -> Component(
 			     DialogBox => 'logindialog',
-			     -title => 'Login',
+			     -title => 'Log in.',
 			     -buttons => [ 'Ok', 'Cancel' ] );
     $l -> Component( Label => 'useridlabel',
-		      -text => 'Please enter your User ID and Password:'
+		      -text => 'Please enter your user name and password.'
 		      ) -> pack( -expand => '1', -fill => 'x' );
     $l -> Component ( LabEntry => 'uidentry', 
 		      -labelVariable => \$w -> {'Configure'}{'-uidlabel'} )
-      -> pack( -anchor => 'w', -expand => '1', -fill => 'x' );
+      -> pack( -anchor => 'w', -expand => '1', -fill => 'x',
+	       -padx => 5, -pady => 5);
     $l -> Component( LabEntry => 'pwdentry', 
 		     -labelVariable => \$w -> {'Configure'}{'-pwdlabel'},
 		     -show => '*' )
-      -> pack( -anchor => 'w', -expand => '1', -fill => 'x' );
+      -> pack( -anchor => 'w', -expand => '1', -fill => 'x',
+	       -padx => 5, -pady => 5);
 
-    my $l = $w -> Component( Dialog => 'errormessage',
-			      -title =>  "Network Error",
-			     -font => $menufont,
-			     -bitmap => 'error' );
+    $l = $w -> Component( Dialog => 'errormessage',
+			  -title =>  "Network Error",
+			  -bitmap => 'error' );
 
     $w->ConfigSpecs(
-		    -width            => [ ['file_list','dir_list'], undef, undef, 14 ],
+        -width            => [ ['file_list','dir_list'], undef, undef, 20 ],
         -height           => [ ['file_list','dir_list'], undef, undef, 14 ],
         -directory        => [ 'METHOD', undef, undef, '.' ],
+	-remotedirectory  => ['PASSIVE', undef, undef, '.' ],
         -initialdir       => '-directory',
         -filelabel        => [ 'PASSIVE', 'fileLabel', 'FileLabel', 
-			       'File Name:' ],
+			       'File name' ],
         -initialfile      => [ 'PASSIVE', undef, undef, '' ],
         -filelistlabel    => [ 'PASSIVE', undef, undef, 'Files' ],
         -filter           => [ 'METHOD',  undef, undef, undef ],
@@ -437,10 +613,9 @@ sub Populate {
 	-ftp              => [ 'PASSIVE', undef, undef, undef ],
 	-networkerror     => [ 'PASSIVE', undef, undef, undef ],
 	-password         => [ 'PASSIVE', undef, undef, '' ],
-        -defaultextension => [ 'METHOD',  undef, undef, undef ],
         -regexp           => [ 'METHOD', undef, undef, undef ],
         -dirlistlabel     => [ 'PASSIVE', undef, undef, 'Directories'],
-        -dirlabel         => [ 'PASSIVE', undef, undef, 'Directory:'],
+        -dirlabel         => [ 'PASSIVE', undef, undef, 'Directory'],
         '-accept'         => [ 'CALLBACK',undef,undef, undef ],
         -command          => [ 'CALLBACK',undef,undef, undef ],
         -transient        => [ 'PASSIVE', undef, undef, 1 ],
@@ -451,9 +626,12 @@ sub Populate {
         -cancellabel      => [ 'PASSIVE', undef, undef, 'Cancel'],
         -resetlabel       => [ 'PASSIVE', undef, undef, 'Reset'],
         -homelabel        => [ 'PASSIVE', undef, undef, 'Home'],
-	-uidlabel         => ['PASSIVE', undef, undef, 'User ID:'],
-	-pwdlabel         => ['PASSIVE', undef, undef, 'Password:'],
-	-connected        => ['PASSIVE', undef, undef, '' ],
+	-uidlabel         => [ 'PASSIVE', undef, undef, 'User ID'],
+	-pwdlabel         => [ 'PASSIVE', undef, undef, 'Password'],
+	-connected        => [ 'PASSIVE', undef, undef, '' ],
+        -ftpvariable      => ['PASSIVE', undef, undef, '' ],
+ 	-useridvariable   => ['PASSIVE', undef, undef, '' ],
+ 	-passwordvariable => ['PASSIVE', undef, undef, ''],
         DEFAULT           => [ 'file_list' ],
     );
     $w->Delegates(DEFAULT => 'file_list');
@@ -550,7 +728,7 @@ sub remoteDirectory {
       return;
     }
     if( ! $ftp -> cwd( "$current/$dir" ) ) {
-      $cw -> error( "Cannot cwd to $current/$dir." );
+      $cw -> Error( "Cannot cwd to $current/$dir." );
       $cw -> rereadRemote;
       return;
     }
@@ -563,11 +741,17 @@ sub remoteDirectory {
 sub directory
 {
  my ($cw,$dir) = @_;
- if( ( $cw -> cget( '-connected' ) ) =~ /1/ ) {
-   $cw -> remoteDirectory( $dir );
-   return $dir;
+
+ my ($var, $c);
+
+ $c = $cw -> cget ( '-connected' );
+ if ( $c && $c =~ /1/ ) {
+     $var = \$cw->{Configure}{'-directory'};
+     $cw -> remoteDirectory( $dir );
+     $$var = $dir;
+     return $$var;
  }
- my $var = \$cw->{Configure}{'-directory'};
+ $var = \$cw->{Configure}{'-directory'};
  if (@_ > 1 && defined $dir)
   {
    if (substr($dir,0,1) eq '~')
@@ -634,7 +818,13 @@ sub rereadRemote {
        next if $f =~ /^total/;
        $name = $f;
        if ( $f =~ /^l/ ) {
-	 $name =~ s/.* (.*) \-\> .*/\1/; 
+	   $name =~ s/.* (.*) \-\> .*/$1/; 
+	   if ( $ftp -> cwd($name) ) {
+	       substr($f, 0, 1) = "d";
+	       if( ! $ftp -> cwd( $dir ) ) {
+		   $w -> Error( "Cannot cwd to $dir." );
+	       }
+	   }
        } else {
 	 $name =~ s/.* //;
        }

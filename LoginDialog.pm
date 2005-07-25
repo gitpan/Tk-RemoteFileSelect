@@ -1,10 +1,11 @@
 package Tk::LoginDialog;
-my $RCSRevKey = '$Revision: 0.61 $';
+my $RCSRevKey = '$Revision: 1.2 $';
 $RCSRevKey =~ /Revision: (.*?) /;
 $VERSION=0.61;
 use vars qw($VERSION @EXPORT_OK);
 
 use Tk qw(Ev);
+use Tk::CmdLine;
 use strict;
 use Carp;
 use base qw(Tk::Toplevel);
@@ -12,7 +13,9 @@ use Tk::widgets qw(LabEntry DialogBox);
 
 Construct Tk::Widget 'LoginDialog';
 
-my $menufont="*-helvetica-medium-r-*-*-12-*";
+my $font="*-helvetica-medium-r-*-*-12-*";
+
+Tk::CmdLine::SetResources ('*font: ' . $font);
 
 sub Populate {
   my ($w, $args) = @_;
@@ -24,17 +27,16 @@ sub Populate {
   $w->SUPER::Populate($args);
 
   my $l = $w -> Component( Label => 'toplabel',
-			   -font => $menufont,
-			   -text => 'Please enter your User ID and Password:'
-			 ) -> pack( -expand => '1', -fill => 'x' );
+			   -text => 'Please enter your user name and password.'
+			 ) -> pack( -expand => '1', -fill => 'x', 
+				    -ipady => 5, -ipadx => 5);
   $l = $w -> Component( LabEntry => 'userid',
 			 -labelVariable => \$w -> {'Configure'}{'-uidlabel'},
-			 -labelFont => $menufont,
 			 -textvariable => \$w -> {'Configure'}{'-userid'} )
-    -> pack( -anchor => 'w', -expand => '1', -fill => 'x' );
+    -> pack( -anchor => 'w', -expand => '1', -fill => 'x', 
+	     -ipady => 5, -ipadx => 5);
   $l = $w -> Component( LabEntry => 'password',
 			-labelVariable => \$w -> {'Configure'}{'-pwdlabel'},
-			-labelFont => $menufont,
 			-textvariable => \$w -> {'Configure'}{'-password'},
 			-show => '*' )
     -> pack( -anchor => 'w', -expand => '1', -fill => 'x' );
@@ -43,12 +45,10 @@ sub Populate {
 			   -relief => 'groove',
 			   -borderwidth => '3' );
   my $ok = $f -> Button( -text => 'Login', -width => 6,
-			 -font => $menufont,
 			 -default => 'active',
 			 -command => sub{ $w->Accept})
     -> pack( -padx => 30, -pady => 5, -side => 'left', -anchor => 'w');
   my $cancel = $f -> Button( -text => 'Cancel', -width => 6,
-			     -font => $menufont,
 			     -default => 'normal',
 			     -command =>sub{$w->WmDeleteWindow})
     -> pack( -padx => 30, -pady => 5, -side => 'right', -anchor => 'e' );
@@ -57,8 +57,8 @@ sub Populate {
 		-userid   => ['PASSIVE', undef, undef, "" ],
 		-password => ['PASSIVE', undef, undef, "" ],
 		  -accept => ['PASSIVE', undef, undef, "" ],
-		-uidlabel => ['PASSIVE', undef, undef, 'User ID:'],
-		-pwdlabel => ['PASSIVE', undef, undef, 'Password:'],
+		-uidlabel => ['PASSIVE', undef, undef, 'User ID'],
+		-pwdlabel => ['PASSIVE', undef, undef, 'Password'],
 		);
   $ok -> focus;
   return $w;
